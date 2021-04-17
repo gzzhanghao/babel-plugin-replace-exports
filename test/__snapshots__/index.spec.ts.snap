@@ -1,0 +1,59 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`plugin includes 1`] = `"export const value = 1;"`;
+
+exports[`plugin map filename 1`] = `
+"import { default as _factory } from \\"foo\\";
+var _filename = \\"test\\";
+export var foo = _factory(_filename, \\"foo\\");"
+`;
+
+exports[`plugin reexport 1`] = `
+"import { default as _factory } from \\"foo\\";
+var _filename = \\"test.js\\";
+export * as bar from \\"foo\\";
+export { remote as local } from \\"bar\\";
+export * from \\"baz\\";"
+`;
+
+exports[`plugin transform class declarations 1`] = `
+"import { default as _factory } from \\"foo\\";
+var _filename = \\"test.js\\";
+export var A = _factory(_filename, \\"A\\");"
+`;
+
+exports[`plugin transform default export 1`] = `
+"import { default as _factory } from \\"foo\\";
+var _filename = \\"test.js\\";
+export default _factory(_filename, \\"default\\");"
+`;
+
+exports[`plugin transform exports 1`] = `
+"import { default as _factory } from \\"foo\\";
+var _filename = \\"test.js\\";
+export var foo = _factory(_filename, \\"foo\\");"
+`;
+
+exports[`plugin transform function declarations 1`] = `
+"import { default as _factory } from \\"foo\\";
+var _filename = \\"test.js\\";
+export var foo = _factory(_filename, \\"foo\\");"
+`;
+
+exports[`plugin transform specifiers 1`] = `
+"import { default as _factory } from \\"foo\\";
+var _filename = \\"test.js\\";
+export var foo = _factory(_filename, \\"foo\\");"
+`;
+
+exports[`plugin transform with factory name 1`] = `
+"import { create as _factory } from \\"foo\\";
+var _filename = \\"test.js\\";
+export var foo = _factory(_filename, \\"foo\\");"
+`;
+
+exports[`plugin transforms 1`] = `
+"import { default as _factory } from \\"foo\\";
+var _filename = \\"test.js\\";
+export var value = _factory(_filename, \\"value\\");"
+`;
