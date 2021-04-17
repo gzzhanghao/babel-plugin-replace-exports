@@ -3,6 +3,7 @@
     "strict": true,
     "declaration": true,
     "target": "ES2019",
+    "module": "commonjs",
     "moduleResolution": "node",
     "baseUrl": "src",
     "outDir": "dist"
