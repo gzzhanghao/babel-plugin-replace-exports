@@ -16,7 +16,7 @@ __Output:__
 ```js
 import { createAjaxApi as _factory } from '@/lib/createAjaxApi'
 var _filename = 'server/serverApi.js'
-export var someServerApi = _factory(_filename, 'someServerApi')
+export var someServerApi = /*#__PURE__*/_factory(_filename, 'someServerApi')
 ```
 
 Plugin will remove anything except re-exports.

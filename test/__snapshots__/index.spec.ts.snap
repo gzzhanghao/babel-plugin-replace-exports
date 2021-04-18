@@ -1,59 +1,74 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`plugin includes 1`] = `"export const value = 1;"`;
-
-exports[`plugin map filename 1`] = `
-"import { default as _factory } from \\"foo\\";
-var _filename = \\"test\\";
-export var foo = _factory(_filename, \\"foo\\");"
-`;
-
-exports[`plugin reexport 1`] = `
+exports[`options basepath 1`] = `
 "import { default as _factory } from \\"foo\\";
 var _filename = \\"test.js\\";
+export default /*#__PURE__*/_factory(_filename, \\"default\\");"
+`;
+
+exports[`options factory name 1`] = `
+"import { create as _factory } from \\"foo\\";
+var _filename = \\"test/test.js\\";
+export default /*#__PURE__*/_factory(_filename, \\"default\\");"
+`;
+
+exports[`options includes 1`] = `"export default foo;"`;
+
+exports[`options map filename 1`] = `
+"import { default as _factory } from \\"foo\\";
+var _filename = \\"test/test\\";
+export default /*#__PURE__*/_factory(_filename, \\"default\\");"
+`;
+
+exports[`options impure 1`] = `
+"import { default as _factory } from \\"foo\\";
+var _filename = \\"test/test.js\\";
+export default _factory(_filename, \\"default\\");"
+`;
+
+exports[`transform class declarations 1`] = `
+"import { default as _factory } from \\"foo\\";
+var _filename = \\"test/test.js\\";
+export var Foo = /*#__PURE__*/_factory(_filename, \\"Foo\\");"
+`;
+
+exports[`transform default export 1`] = `
+"import { default as _factory } from \\"foo\\";
+var _filename = \\"test/test.js\\";
+export default /*#__PURE__*/_factory(_filename, \\"default\\");"
+`;
+
+exports[`transform function declarations 1`] = `
+"import { default as _factory } from \\"foo\\";
+var _filename = \\"test/test.js\\";
+export var foo = /*#__PURE__*/_factory(_filename, \\"foo\\");"
+`;
+
+exports[`transform locals 1`] = `
+"import { default as _factory } from \\"foo\\";
+var _filename = \\"test/test.js\\";
+export var foo = /*#__PURE__*/_factory(_filename, \\"foo\\");"
+`;
+
+exports[`transform multiple 1`] = `
+"import { default as _factory } from \\"foo\\";
+var _filename = \\"test/test.js\\";
+export var foo = /*#__PURE__*/_factory(_filename, \\"foo\\");
+export var bak = /*#__PURE__*/_factory(_filename, \\"bak\\");
+export var bar = /*#__PURE__*/_factory(_filename, \\"bar\\");
+export default /*#__PURE__*/_factory(_filename, \\"default\\");"
+`;
+
+exports[`transform reexport 1`] = `
+"import { default as _factory } from \\"foo\\";
+var _filename = \\"test/test.js\\";
 export * as bar from \\"foo\\";
 export { remote as local } from \\"bar\\";
 export * from \\"baz\\";"
 `;
 
-exports[`plugin transform class declarations 1`] = `
+exports[`transform variable declarations 1`] = `
 "import { default as _factory } from \\"foo\\";
-var _filename = \\"test.js\\";
-export var A = _factory(_filename, \\"A\\");"
-`;
-
-exports[`plugin transform default export 1`] = `
-"import { default as _factory } from \\"foo\\";
-var _filename = \\"test.js\\";
-export default _factory(_filename, \\"default\\");"
-`;
-
-exports[`plugin transform exports 1`] = `
-"import { default as _factory } from \\"foo\\";
-var _filename = \\"test.js\\";
-export var foo = _factory(_filename, \\"foo\\");"
-`;
-
-exports[`plugin transform function declarations 1`] = `
-"import { default as _factory } from \\"foo\\";
-var _filename = \\"test.js\\";
-export var foo = _factory(_filename, \\"foo\\");"
-`;
-
-exports[`plugin transform specifiers 1`] = `
-"import { default as _factory } from \\"foo\\";
-var _filename = \\"test.js\\";
-export var foo = _factory(_filename, \\"foo\\");"
-`;
-
-exports[`plugin transform with factory name 1`] = `
-"import { create as _factory } from \\"foo\\";
-var _filename = \\"test.js\\";
-export var foo = _factory(_filename, \\"foo\\");"
-`;
-
-exports[`plugin transforms 1`] = `
-"import { default as _factory } from \\"foo\\";
-var _filename = \\"test.js\\";
-export var value = _factory(_filename, \\"value\\");"
+var _filename = \\"test/test.js\\";
+export var foo = /*#__PURE__*/_factory(_filename, \\"foo\\");"
 `;

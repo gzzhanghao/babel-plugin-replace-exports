@@ -1,14 +1,11 @@
 import type * as BabelCore from '@babel/core';
 import normalizeModuleAndLoadMetadata from '@babel/helper-module-transforms/lib/normalize-and-load-metadata';
-import type BabelTemplate from '@babel/template';
-import type * as BabelTraverse from '@babel/traverse';
-import type * as BabelTypes from '@babel/types';
 import * as micromatch from 'micromatch';
 import * as Path from 'upath';
 
 interface PluginContext {
-  types: typeof BabelTypes
-  template: typeof BabelTemplate
+  types: typeof BabelCore.types
+  template: typeof BabelCore.template
 }
 
 type PluginFactory = (babel: PluginContext) => BabelCore.PluginObj;
@@ -21,14 +18,15 @@ export interface PluginOptions {
   factory: string;
   basepath?: string;
   includes?: string[];
+  impureFactory?: boolean;
   factoryImportName?: string;
   mapFilename?: (filename: string, state: BabelCore.PluginPass) => string
 }
 
 export default definePlugin(({ types: t, template }) => {
-  const importDeclaration = template.statement('import { %%factoryImportName%% as %%factoryIdentifier%% } from %%factory%%');
-  const exportDeclaration = template.statement('export var %%exportName%% = %%factoryIdentifier%%(%%filename%%, %%exportNameStr%%)');
-  const exportDefaultDeclaration = template.statement('export default %%factoryIdentifier%%(%%filename%%, %%exportNameStr%%)');
+  const importDeclaration = template.statement(
+    'import { %%factoryImportName%% as %%factoryIdentifier%% } from %%factory%%',
+  );
 
   function exportNamedDeclaration(source: string, specifier: any) {
     return t.exportNamedDeclaration(
@@ -48,6 +46,16 @@ export default definePlugin(({ types: t, template }) => {
           return;
         }
 
+        const exportDeclaration = template.statement(
+          'export var %%exportName%% = /*#__PURE__*/ %%factoryIdentifier%%(%%filename%%, %%exportNameStr%%)',
+          { preserveComments: !options.impureFactory },
+        );
+
+        const exportDefaultDeclaration = template.statement(
+          'export default /*#__PURE__*/ %%factoryIdentifier%%(%%filename%%, %%exportNameStr%%)',
+          { preserveComments: !options.impureFactory },
+        );
+
         let filename = relative;
         if (options.mapFilename) {
           filename = options.mapFilename(filename, state);
@@ -56,7 +64,7 @@ export default definePlugin(({ types: t, template }) => {
         const factoryIdentifier = path.scope.generateUidIdentifier('factory');
         const filenameIdentifier = path.scope.generateUidIdentifier('filename');
 
-        const body: BabelTraverse.Node[] = [];
+        const body: BabelCore.Node[] = [];
 
         // import factory
         body.push(importDeclaration({
@@ -96,19 +104,23 @@ export default definePlugin(({ types: t, template }) => {
 
         // local exports
         for (const item of metadata.local.values()) {
-          if (item.names[0] === 'default') {
-            body.push(exportDefaultDeclaration({
-              factoryIdentifier,
-              filename: filenameIdentifier,
-              exportNameStr: t.stringLiteral(item.names[0]),
-            }));
-          } else {
-            body.push(exportDeclaration({
-              factoryIdentifier,
-              filename: filenameIdentifier,
-              exportName: t.identifier(item.names[0]),
-              exportNameStr: t.stringLiteral(item.names[0]),
-            }));
+          for (const name of item.names) {
+            let stmt: BabelCore.types.Statement;
+            if (name === 'default') {
+              stmt = exportDefaultDeclaration({
+                factoryIdentifier,
+                filename: filenameIdentifier,
+                exportNameStr: t.stringLiteral(name),
+              });
+            } else {
+              stmt = exportDeclaration({
+                factoryIdentifier,
+                filename: filenameIdentifier,
+                exportName: t.identifier(name),
+                exportNameStr: t.stringLiteral(name),
+              });
+            }
+            body.push(t.cloneNode(stmt, true, true));
           }
         }
 
