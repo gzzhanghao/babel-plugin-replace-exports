@@ -81,7 +81,9 @@ export default definePlugin(({ types: t, template }) => {
           ),
         ]));
 
-        const metadata = normalizeModuleAndLoadMetadata(path);
+        const metadata = normalizeModuleAndLoadMetadata(path, null, {
+          importInterop: 'none',
+        });
 
         // re-exports
         for (const [source, item] of metadata.source.entries()) {

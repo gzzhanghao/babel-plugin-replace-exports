@@ -11,7 +11,7 @@
     "prepare": "npm run test && npm run build"
   },
   "dependencies": {
-    "@babel/helper-module-transforms": "^7.13.14",
+    "@babel/helper-module-transforms": "7.14.0",
     "micromatch": "^4.0.4",
     "upath": "^2.0.1"
   },
